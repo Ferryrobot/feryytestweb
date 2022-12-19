@@ -5,7 +5,7 @@ import {message} from "ant-design-vue";
 export const $login = async (params) => {
     //对密码加密
     // params.password = md5(md5(params.password).split('').reverse().join(''))
-    let data = await $post('api-token-auth/', params)
+    let data = await $post('users/login/', params)
     let {token} = data
     // console.log(data)
     if (token !== '') {
