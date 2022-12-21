@@ -3,21 +3,17 @@ import {message} from "ant-design-vue";
 //登录api
 
 export const $login = async (params) => {
-    //对密码加密
-    // params.password = md5(md5(params.password).split('').reverse().join(''))
+
     let data = await $post('users/login/', params)
-    let {token} = data
-    // console.log(data)
-    if (token !== '') {
-        let {token} = data
+    let {response,msg,result} =data
+    let {token} = response
+    if (result) {
         //将token信息保存
         sessionStorage.setItem('token', token)
         //在请求头中更新token
         $SetToken(token)
-
-
     } else {
-        message.error("登录失败")
+        message.error(msg)
     }
     return data
 }

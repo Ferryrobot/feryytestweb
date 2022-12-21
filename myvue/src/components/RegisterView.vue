@@ -105,8 +105,8 @@ let $router = useRouter();
 
 const onFinish = async (value) => {
   let data = await $register(value)
-  let {state, msg} = data
-  if (state) {
+  let {result, msg} = data
+  if (result) {
     $router.push('login/')
   } else {
     console.log(data)

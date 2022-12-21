@@ -85,7 +85,7 @@ const onFinish = async (value) => {
   let data = await $login(value)
   let {token} = data
   if (token !== '') {
-    $router.push('base/')
+    $router.push("/base/")
   } else {
     console.log(data)
   }

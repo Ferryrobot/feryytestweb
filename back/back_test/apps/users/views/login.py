@@ -7,5 +7,5 @@ class RegisterView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response('yes')
-        return Response('NO')
+            return Response({"result":True,"status":200,"msg":"注册成功"})
+        return Response({"result":False,"status":400,"msg":list(serializer.errors.values())[0][0]})

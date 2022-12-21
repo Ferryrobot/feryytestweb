@@ -3,9 +3,8 @@ import {message} from "ant-design-vue";
 
 export const $register = async (params)=>{
     let data = await $post('users/register/',params)
-    let {state,msg} =data
-    console.log(data)
-    if (state){
+    let {result,msg} =data
+    if (result){
         message.success(msg)
     }else {
         message.error(msg)

@@ -27,19 +27,21 @@ def jwt_response_payload_handler(token, user=None, request=None):
   """
   return {
     "msg": "登陆成功",
-    "status": True,
-    "data": [{
+    "status": 200,
+    "result":True,
+    "response": {
         # data自定义你接口想返回的信息
       'token': token,
       'username': user.username,
-        'userid':user.id
-    }]
+      'userid':user.id
+    }
   }
 
 
 def jwt_response_payload_error_handler(serializer, request = None):
   return {
     "msg": "用户名或者密码错误",
-    "status": False,
-    "detail": serializer.errors
+    "status": 400,
+    "result": False,
+    "response": serializer.errors
   }
