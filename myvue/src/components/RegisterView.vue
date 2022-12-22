@@ -28,7 +28,7 @@
             name="mobile">
           <a-input has-feedback v-model:value="form.mobile"/>
         </a-form-item>
-        <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+        <a-form-item :wrapper-col="{ offset: 4, span: 16 }">
           <a-button type="primary" html-type="submit">注册</a-button>
         </a-form-item>
       </a-form>

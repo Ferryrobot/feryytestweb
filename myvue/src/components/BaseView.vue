@@ -7,22 +7,22 @@
       </div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
         <a-menu-item key="1">
-          <send-outlined />
-<!--          <span><a style="color: rgba(255, 255, 255, 0.65);;-->
-<!--    background-color: transparent;" key="1-1" href="/base/train">火车查询</a></span>-->
-        <span @click="clicktrain">火车查询</span>
+          <send-outlined/>
+          <!--          <span><a style="color: rgba(255, 255, 255, 0.65);;-->
+          <!--    background-color: transparent;" key="1-1" href="/base/train">火车查询</a></span>-->
+          <span @click="clicktrain">火车查询</span>
         </a-menu-item>
         <a-menu-item key="2">
 
-            <cloud-outlined />
+          <cloud-outlined/>
 
-<!--          <span key="2-1"><a style="color: rgba(255, 255, 255, 0.65);-->
-<!--    background-color: transparent;" href="/base/weather">天气查询</a></span>-->
+          <!--          <span key="2-1"><a style="color: rgba(255, 255, 255, 0.65);-->
+          <!--    background-color: transparent;" href="/base/weather">天气查询</a></span>-->
           <span @click="clickweather">天气查询</span>
         </a-menu-item>
         <a-sub-menu key="sub1">
           <template #title>
-            <play-circle-outlined />
+            <play-circle-outlined/>
             <span>
 
               歌单
@@ -34,7 +34,7 @@
         </a-sub-menu>
         <a-sub-menu key="sub2">
           <template #title>
-            <menu-unfold-outlined />
+            <menu-unfold-outlined/>
             <span>
               <span>歌曲类型</span>
             </span>
@@ -44,16 +44,42 @@
           <a-menu-item key="15">摇滚</a-menu-item>
         </a-sub-menu>
         <a-menu-item key="9">
-          <question-outlined />
+          <question-outlined/>
           <span>关于</span>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
 
-      <a-layout-header style="background-color: #FFFFFF">
+      <a-layout-header class="header">
 
-        <h3 style="text-align: center">Ferry</h3>
+        <a-menu class="nav" v-model:selectedKeys="current" mode="horizontal" theme="dark">
+          <a-menu-item key="h1">
+            <template #icon>
+              <bell-outlined />
+            </template>
+            消息
+          </a-menu-item>
+          <a-menu-item key="h2">
+            <template #icon>
+              <question-circle-outlined />
+            </template>
+            帮助
+          </a-menu-item>
+          <a-sub-menu key="h3">
+            <template #icon>
+              <user-outlined />
+            </template>
+            <template #title>{{username}}</template>
+            <a-menu-item-group >
+              <a-menu-item key="setting:1">个人中心</a-menu-item>
+              <a-menu-item key="setting:2">安全登录</a-menu-item>
+            </a-menu-item-group>
+            <a-menu-item-group >
+              <a-menu-item key="setting:4" @click="logout">注销</a-menu-item>
+            </a-menu-item-group>
+          </a-sub-menu>
+        </a-menu>
 
 
       </a-layout-header>
@@ -73,18 +99,37 @@
   </a-layout>
 </template>
 <script setup>
-import {UserOutlined, CloudOutlined,SendOutlined,PlayCircleOutlined,MenuUnfoldOutlined,QuestionOutlined,CustomerServiceOutlined} from '@ant-design/icons-vue';
-import { ref} from 'vue';
+import {
+  UserOutlined,
+  CloudOutlined,
+  SendOutlined,
+  PlayCircleOutlined,
+  MenuUnfoldOutlined,
+  QuestionOutlined,
+  CustomerServiceOutlined,
+    BellOutlined,
+    QuestionCircleOutlined
+} from '@ant-design/icons-vue';
+import {ref} from 'vue';
 import {useRouter} from "vue-router";
 
 let $router = useRouter()
+let username = sessionStorage.getItem('username')
+let current = ref([''])
 let collapsed = ref(false)
 let selectedKeys = ref([''])
-let clickweather =()=>{
-  $router.push('/base/weather/')
+let clickweather = () => {
+  $router.push('/base/weather')
 }
-let clicktrain =()=>{
-  $router.push('/base/train/')
+let clicktrain = () => {
+  $router.push('/base/train')
+}
+
+
+let logout = async ()=>{
+  $router.push('/')
+  sessionStorage.clear()
+  localStorage.clear()
 }
 </script>
 
@@ -97,11 +142,21 @@ let clicktrain =()=>{
     margin: 16px;
     background: rgba(255, 255, 255, 0.3);
     overflow: hidden;
-    span{
+
+    span {
       text-align: center;
       font-size: 20px;
       color: #FFFFFFA6;
       margin-left: 5px;
+    }
+  }
+
+  .header{
+    background: #001529;
+    display: flex;
+    justify-content: right;
+    .nav{
+
     }
   }
 }

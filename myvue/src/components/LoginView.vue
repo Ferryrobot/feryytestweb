@@ -15,18 +15,24 @@
         <a-form-item
             label="用户名"
             name="username">
-          <a-input v-model:value="form.username"/>
+          <a-input has-feedback v-model:value="form.username"/>
         </a-form-item>
 
         <a-form-item
             label="密　码"
             name="password">
-          <a-input-password v-model:value="form.password"/>
+          <a-input-password has-feedback v-model:value="form.password"/>
         </a-form-item>
-        <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+
+        <a-form-item name="remember" :wrapper-col="{ offset: 4, span: 16 }">
+          <a-checkbox v-model:checked="form.remember">记住登录</a-checkbox>
+        </a-form-item>
+
+        <a-form-item :wrapper-col="{ offset: 4, span: 16 }">
           <a-button type="primary" html-type="submit">登录</a-button>
         </a-form-item>
       </a-form>
+      <a style="display:flex;justify-content:right" href="/register">注册</a>
     </a-card>
   </div>
 </template>
@@ -40,9 +46,12 @@ import {$login} from "@/utils/login";
 const form = reactive(
     {
       username: "",
-      password: ""
+      password: "",
+      remember:false
     });
-let checkUsername = async (_rule, value) => {
+
+
+let validateUser = async (_rule, value) => {
   let reg = /^[a-zA-Z0-9]{4,10}$/
   if (value === '') {
     return Promise.reject("用户名不能为空")
@@ -52,7 +61,7 @@ let checkUsername = async (_rule, value) => {
     return Promise.resolve()
   }
 };
-let checkPassword = async (_rule, value) => {
+let validatePass = async (_rule, value) => {
   let reg = /^[a-zA-Z0-9]{4,10}$/
   if (value === '') {
     return Promise.reject("密码不能为空")
@@ -66,14 +75,14 @@ const rules = {
   username: [
     {
       required: true,
-      validator: checkUsername,
-      trigger: 'change'
+      validator: validateUser,
+      trigger: 'blur'
     },
   ],
   password: [
     {
       required: true,
-      validator: checkPassword,
+      validator: validatePass,
       trigger: 'change'
     },
   ],
@@ -81,13 +90,12 @@ const rules = {
 };
 let $router = useRouter();
 
-const onFinish = async (value) => {
-  let data = await $login(value)
-  let {token} = data
-  if (token !== '') {
-    $router.push("/base/")
-  } else {
-    console.log(data)
+const onFinish = async (values) => {
+  let data = await $login(values)
+  console.log(values.remember)
+
+  if (data) {
+    $router.push("/base")
   }
 };
 
